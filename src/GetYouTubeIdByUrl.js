@@ -63,7 +63,7 @@ const channelId = async (url) => {
     const ytChannelPageResponse = await axiosInstance.get(url)
     const $ = cheerio.load(ytChannelPageResponse.data)
 
-    const id = $('meta[itemprop="channelId"]').attr('content')
+    const id = $('body meta[itemprop="identifier"]').attr('content')
     if (id) {
       return id
     }
