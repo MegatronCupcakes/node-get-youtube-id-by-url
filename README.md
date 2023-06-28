@@ -4,7 +4,7 @@ Get YouTube channel or video id by url!
 
 ## Report Issues
 
-Please report any bugs you discover at <https://github.com/GoneToneStudio/node-get-youtube-id-by-url/issues>
+Please report any bugs you discover at <https://github.com/MegatronCupcakes/node-get-youtube-id-by-url/issues>
 
 ## Installation
 
@@ -13,13 +13,13 @@ Node.js 12.0.0 or newer is required.
 ### With NPM
 
 ```sh-session
-npm install @gonetone/get-youtube-id-by-url
+npm install @megatroncupcakes/get-youtube-id-by-url
 ```
 
 ## Examples
 
 ```javascript
-const { channelId, videoId } = require('@gonetone/get-youtube-id-by-url')
+import { channelId, videoId, channelIconById, channelIconByName } from '@megatroncupcakes/get-youtube-id-by-url'
 ```
 
 ### Get YouTube Channel ID By Url

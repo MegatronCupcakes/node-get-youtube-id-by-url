@@ -32,10 +32,10 @@
 
 'use strict'
 
-const axios = require('axios')
-const cheerio = require('cheerio')
+import axios from 'axios';
+import * as cheerio from 'cheerio';
 
-const axiosInstance = axios.create({
+const _axiosInstance = axios.create({
   headers: {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36'
   },
@@ -45,12 +45,24 @@ const axiosInstance = axios.create({
 })
 
 /**
+ * Get YouTube Channel Icon From Url
+ *
+ * @param {string} url
+ * @returns {string} icon url
+ */
+const _getIcon = async (url) => {
+  const {data} = await _axiosInstance.get(url);
+  const $ = cheerio.load(data);
+  return $('body meta[property="og:image"]').attr('content');
+}
+
+/**
  * Check YouTube Url
  *
  * @param {string} url
  * @returns {boolean}
  */
-const checkUrl = (url) => url.indexOf('youtube.com') !== -1 || url.indexOf('youtu.be') !== -1
+const _checkUrl = (url) => url.indexOf('youtube.com') !== -1 || url.indexOf('youtu.be') !== -1
 
 /**
  * Get YouTube Channel ID By Url
@@ -59,10 +71,9 @@ const checkUrl = (url) => url.indexOf('youtube.com') !== -1 || url.indexOf('yout
  * @returns {Promise<string>} Channel ID
  */
 const channelId = async (url) => {
-  if (checkUrl(url)) {
-    const ytChannelPageResponse = await axiosInstance.get(url)
+  if (_checkUrl(url)) {
+    const ytChannelPageResponse = await _axiosInstance.get(url)
     const $ = cheerio.load(ytChannelPageResponse.data)
-
     const id = $('body meta[itemprop="identifier"]').attr('content')
     if (id) {
       return id
@@ -75,14 +86,42 @@ const channelId = async (url) => {
 }
 
 /**
+ * Get YouTube Channel Icon by Channel ID
+ *
+ * @param {string} channelId Channel ID
+ * @returns {Promise<string>} Channel Icon URL
+ */
+const channelIconById = (channelId) => {
+  const icon = _getIcon(`https://www.youtube.com/channel/${channelId}`);
+  if(icon){
+    return icon;
+  }
+  throw Error(`Unable to get icon for channelId: ${channelId}.`);
+}
+
+/**
+ * Get YouTube Channel Icon by Channel Name
+ *
+ * @param {string} channelName Channel Name
+ * @returns {Promise<string>} Channel Icon URL
+ */
+const channelIconByName = (channelName) => {
+  const icon = _getIcon(`https://www.youtube.com/@${channelName}`);
+  if(icon){
+    return icon;
+  }
+  throw Error(`Unable to get icon for channelId: ${channelId}.`);
+}
+
+/**
  * Get YouTube Video ID By Url
  *
  * @param {string} url Video Url
  * @returns {Promise<string>} Video ID
  */
 const videoId = async (url) => {
-  if (checkUrl(url)) {
-    const ytChannelPageResponse = await axiosInstance.get(url)
+  if (_checkUrl(url)) {
+    const ytChannelPageResponse = await _axiosInstance.get(url)
     const $ = cheerio.load(ytChannelPageResponse.data)
 
     const id = $('meta[itemprop="videoId"]').attr('content')
@@ -98,5 +137,7 @@ const videoId = async (url) => {
 
 module.exports = {
   channelId,
-  videoId
+  videoId,
+  channelIconById,
+  channelIconByName
 }
