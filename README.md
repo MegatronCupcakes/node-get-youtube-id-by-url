@@ -49,6 +49,21 @@ Support URL format:
 - https://www.youtube.com/watch?v=xxxxxxxxxxx
 - https://youtu.be/xxxxxxxxxxx
 
+### Get YouTube Channel Icon By Channel ID
+
+```javascript
+channelIconById('YouTube Channel ID').then((iconUrl) => {
+  console.log(iconUrl)
+})
+```
+### Get YouTube Channel Icon By Channel Name
+
+```javascript
+channelIconByName('YouTube Channel Name').then((iconUrl) => {
+  console.log(iconUrl)
+})
+```
+
 ## License
 
 [MIT](LICENSE)
