@@ -24,11 +24,6 @@
     "youtube url",
     "google"
   ],
-  "author": {
-    "name": "張文相 Wenxiang Zhang (旋風之音 GoneTone)",
-    "email": "p29022716@gmail.com",
-    "url": "https://github.com/GoneTone"
-  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MegatronCupcakes/node-get-youtube-id-by-url/issues"
